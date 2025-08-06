@@ -1,0 +1,14 @@
+# Dockerfile for Django backend
+FROM python:3.11-slim
+
+WORKDIR /app
+
+COPY poker_game/ ./poker_game/
+COPY game/ ./game/
+COPY manage.py ./
+
+RUN pip install --no-cache-dir django channels channels-redis redis daphne
+
+EXPOSE 8000
+
+CMD ["daphne", "-b", "0.0.0.0", "-p", "8000", "poker_game.asgi:application"]
